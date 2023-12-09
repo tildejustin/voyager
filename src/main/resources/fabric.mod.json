@@ -2,9 +2,8 @@
   "schemaVersion": 1,
   "id": "voyager",
   "version": "${version}",
-
   "name": "Voyager",
-  "description": "Take a voyage into modern java versions. (Fixes (MC-149777) a rare in StructureManager when using a Java Runtime Environment of 11 or above)",
+  "description": "Take a voyage into modern java versions. (Fixes (MC-149777), a rare ConcurrentModificationException in StructureManager, when using a Java Runtime Environment of 11 or above)",
   "authors": [
     "modmuss50"
   ],
@@ -17,7 +16,6 @@
     "voyager.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.7.2",
-    "minecraft": ">=1.14"
+    "minecraft": ">=1.14.3 <1.17.alpha.21.18.a"
   }
 }
