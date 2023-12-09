@@ -18,6 +18,7 @@ package me.modmuss50.voyager.mixin;
 
 import net.minecraft.structure.*;
 import net.minecraft.util.Identifier;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -31,13 +32,16 @@ import java.util.*;
  */
 @Mixin(StructureManager.class)
 public abstract class StructureManagerMixin {
+    @Mutable
     @Shadow
     @Final
-    @Mutable
     private Map<Identifier, Structure> structures;
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void init(CallbackInfo info) {
-        structures = Collections.synchronizedMap(structures);
+    @Inject(method = "<init>", at = @At(value = "FIELD",
+            target = "Lnet/minecraft/structure/StructureManager;structures:Ljava/util/Map;",
+            opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER
+    ))
+    private void init(CallbackInfo ci) {
+        this.structures = Collections.synchronizedMap(this.structures);
     }
 }
