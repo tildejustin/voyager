@@ -16,6 +16,6 @@
     "voyager.mixins.json"
   ],
   "depends": {
-    "minecraft": ">=1.14.3 <1.17.alpha.21.18.a"
+    "minecraft": ">=1.14.3 <1.17-alpha.21.18.a"
   }
 }
