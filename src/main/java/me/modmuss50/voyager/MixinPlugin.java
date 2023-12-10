@@ -3,7 +3,6 @@ package me.modmuss50.voyager;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.*;
 import org.spongepowered.asm.util.JavaVersion;
-import org.spongepowered.asm.util.asm.ASM;
 
 import java.util.*;
 
@@ -19,7 +18,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return JavaVersion.current() >= JavaVersion.JAVA_11 && ASM.isAtLeastVersion(7);
+        return JavaVersion.current() >= JavaVersion.JAVA_11;
     }
 
     @Override
