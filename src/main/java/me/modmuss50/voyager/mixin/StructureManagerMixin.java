@@ -37,10 +37,12 @@ public abstract class StructureManagerMixin {
     @Final
     private Map<Identifier, Structure> structures;
 
-    @Inject(method = "<init>", at = @At(value = "FIELD",
+    @Inject(method = {
+            /* 20w17a-21w19a */ "<init>(Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/world/level/storage/LevelStorage$Session;Lcom/mojang/datafixers/DataFixer;)V",
+            /* 18w43a-20w16a */ "Lnet/minecraft/structure/StructureManager;<init>(Lnet/minecraft/server/MinecraftServer;Ljava/io/File;Lcom/mojang/datafixers/DataFixer;)V"}
+            , at = @At(value = "FIELD",
             target = "Lnet/minecraft/structure/StructureManager;structures:Ljava/util/Map;",
-            opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER
-    ))
+            opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER), require = 1)
     private void init(CallbackInfo ci) {
         this.structures = Collections.synchronizedMap(this.structures);
     }
