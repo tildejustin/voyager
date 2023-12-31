@@ -16,12 +16,11 @@
 
 package me.modmuss50.voyager.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.structure.*;
 import net.minecraft.util.Identifier;
-import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
 
@@ -32,18 +31,12 @@ import java.util.*;
  */
 @Mixin(StructureManager.class)
 public abstract class StructureManagerMixin {
-    @Mutable
-    @Shadow
-    @Final
-    private Map<Identifier, Structure> structures;
-
-    @Inject(method = {
+    @Coerce
+    @ModifyExpressionValue(method = {
             /* 20w17a-21w19a */ "<init>(Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/world/level/storage/LevelStorage$Session;Lcom/mojang/datafixers/DataFixer;)V",
-            /* 18w43a-20w16a */ "Lnet/minecraft/structure/StructureManager;<init>(Lnet/minecraft/server/MinecraftServer;Ljava/io/File;Lcom/mojang/datafixers/DataFixer;)V"}
-            , at = @At(value = "FIELD",
-            target = "Lnet/minecraft/structure/StructureManager;structures:Ljava/util/Map;",
-            opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER), require = 1)
-    private void init(CallbackInfo ci) {
-        this.structures = Collections.synchronizedMap(this.structures);
+            /* 18w43a-20w16a */ "Lnet/minecraft/structure/StructureManager;<init>(Lnet/minecraft/server/MinecraftServer;Ljava/io/File;Lcom/mojang/datafixers/DataFixer;)V"
+    }, at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Maps;newHashMap()Ljava/util/HashMap;"))
+    private Map<Identifier, Structure> init(HashMap<Identifier, Structure> original) {
+        return Collections.synchronizedMap(original);
     }
 }
