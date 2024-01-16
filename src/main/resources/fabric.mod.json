@@ -16,6 +16,7 @@
     "voyager.mixins.json"
   ],
   "depends": {
-    "minecraft": "<1.17-alpha.21.20.a"
+    "minecraft": "<1.17-alpha.21.20.a",
+    "fabricloader": ">=0.14.20"
   }
 }
